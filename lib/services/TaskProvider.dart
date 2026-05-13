@@ -79,11 +79,14 @@ class TaskProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         if (data['status'] == "success") {
-          await fetchTasks(taskId);
+          _tasks.removeWhere((task) => task.id == taskId);
+          notifyListeners();
           return true;
         }
       }
     } catch (e) { print(e); }
     return false;
   }
+
+
 }
